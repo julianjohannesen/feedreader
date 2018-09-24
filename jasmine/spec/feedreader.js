@@ -9,6 +9,7 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
+
     /* This is our first test suite - a test suite just contains
     * a related set of tests. This suite is all about the RSS
     * feeds definitions, the allFeeds variable in our application.
@@ -58,8 +59,15 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
+
+        // This is the CSS that hides/shows the slide menu
+        const hideShow = window.getComputedStyle(document.querySelector('.slide-menu')).transform;
+        // Make the spy available everywhere in here
+        let spy;
+
         it('is hidden by default', function(){
-            expect($('.slide-menu')).toBeHidden();
+            // The menu is hidden by default by translating it 192 pixels to the left, off-screen
+            expect(hideShow).toContain('matrix(1, 0, 0, 1, -192, 0)');
 
         });
 
@@ -68,20 +76,48 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-    }
-    /* TODO: Write a new test suite named "Initial Entries" */
+         it('shows when clicked and hides when clicked again', function(){            
+             beforeEach(function(){
+                 // spy on the menu icon and click event
+                //  spy = spyOnEvent('.header a i', 'click');
+                 // now trigger the click event
+                //  $('.header a i').trigger('click');
+             });
+            // Was the click triggered on the menu icon?
+            // expect('click').toHaveBeenTriggeredOn('.header a i');
+            // Was the spy event triggered?
+            // expect(spy).toHaveBeenTriggered();
+            // Expect that value of hidden to be/contain a matrix that positions it on the page
+            // expect(hideShow).toContain('matrix(1, 0, 0, 1, 0, 0)');
+            // Expect the body NOT to have the menu-hidden class
+            // expect($('body')).not.toHaveClass('menu-hidden');
+            // c. clicking a second time calls the same function
+            // d. which again toggles the presence of the class
+         });
 
+    });
+
+    /* TODO: Write a new test suite named "Initial Entries" */
+    describe('Initial Entries', function(){
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+        beforeEach(function(){
+            //loadFeed(0)
+        });
+        it('calls the loadFeed function', function(){});
+        it('after calling loadFeed, the feed container has at least one entry', function(){});
+    });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
-
+    describe('New Feed Selection', function(){
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        it('loads new content when loadFeed is called', function(){});
+    });
 }());
