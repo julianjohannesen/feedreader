@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/julianjohannesen/frontend-nanodegree-feedreader#readme",
   "devDependencies": {
-    "browser-sync": "^2.24.7",
+    "browser-sync": "^2.26.3",
     "eslint": "^5.6.0",
     "eslint-plugin-react": "^7.11.1",
     "jasmine": "^3.2.0"

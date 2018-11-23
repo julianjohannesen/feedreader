@@ -54,12 +54,12 @@ $(function() {
 
 	/* TODO: Write a new test suite named "The menu" */
 	describe("The menu", function() {
+
 		/* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-
 		it("is hidden by default", function(){
 			// The menu is hidden when the men-hidden class appears on the body element
 			const hiderClass = document.body.classList.contains("menu-hidden");
@@ -103,13 +103,13 @@ $(function() {
 			expect("click").toHaveBeenTriggeredOn(".header a i");
 			// Was the spy event triggered?
 			expect(spy).toHaveBeenTriggered();
-			// Expect the body NOT to have the menu-hidden class
+			// Expect the body to have the menu-hidden class
 			expect($("body")).toHaveClass("menu-hidden");
 			// Expect that value of howHidden to contain a matrix that positions the slide menu off the page
 			// To prevent getting the computed style to soon we can add a delay
 			setTimeout(function(){
 				howHidden = window.getComputedStyle(document.querySelector(".slide-menu")).transform;
-				expect(howHidden).toContain("matrix(1, 0, 0, 1, -192, 0)");
+				expect(howHidden).toContain("matrix(1, 0, 0, 1, -191.191, 0)");
 			}, 5000) ;
 
 		});
@@ -125,7 +125,9 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 		beforeEach(function(done){
-			// Thanks to Matt Cranford for pointing out the second argument for a callback
+			// Thanks to Matt Cranford for pointing out that loadFeed takes
+			// a  second argument for a callback
+			// https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/
 			loadFeed(0, done);
 		});
 		it("has at least one entry", function(){
@@ -141,25 +143,28 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-		let feed1, feed2;
+		const feed = document.querySelector(".feed");
+		let feed1 = [];
 		beforeEach(function(done){
-			// Thanks to Matt Cranford for pointing out loadFeed's second argument for a callback.
-            
-			loadFeed(0, function(done){
-				feed1 = $(".feed").innerHTML;
-				done();
-			});
-            
-			loadFeed(1, function(done){
-				feed2 = $(".feed").innerHTML;
-				done();
-			});
+			// Thanks to Matt Cranford for pointing out that loadFeed takes
+			// a  second argument for a callback
+			// https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/
+
+			// Load the first feed
+			loadFeed(0);
+			// Save the first feed's text content into our feed1 array
+			Array.from(feed.children).forEach(child => feed1.push(child.innerText));
+			// Load the second feed and then call "done" 
+			// "done" can only be called once and must called here
+			loadFeed(1, done);
 		});
-		console.log("This is feed1: ", feed1);
-		console.log("And this is feed2: ", feed2);
 
 		it("loads new content when loadFeed is called", function(){
-			expect(true).toBe(true);
+			Array.from(feed.children).forEach((child, index) => { 
+				// for each child element in the new feed, compare it
+				// to the corresponding element in the old feed. 
+				// We expect that comparison to be false.
+				expect(child.innerText === feed1[index]).toBe(false)})
 		});
 	});
 }());
