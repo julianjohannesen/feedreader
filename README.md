@@ -6,7 +6,7 @@ FeedReader is a simple RSS feed reader application that uses Google's feed reade
 
 ## How do I use it?
 
-Fork and clone the repository and run it on a local server. Open index.html and scroll to the bottom of the page. You will see a list of Jasmine test and an indication as to whether a test passed or failed. 
+Fork and clone the repository and run it on a local server. Open index.html and scroll to the bottom of the page. You will see a list of Jasmine tests and an indication as to whether a test passed or failed. 
 
 The project is also hosted here:
 https://julianjohannesen.github.io/feedreader
