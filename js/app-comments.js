@@ -1,13 +1,12 @@
 /* app.js
  *
  * This is our RSS feed reader application. It uses the Google
- * Feed Reader API to grab RSS feeds as JSON object we can make
- * use of. It also uses the Handlebars templating library and
- * jQuery.
+ * Feed Reader API to grab RSS feeds as JSON objects. It also uses 
+ * the Handlebars templating library and jQuery.
  */
 
 // The names and URLs to all of the feeds we'd like available.
-var allFeeds = [
+const allFeeds = [
 	{
 		name: "Udacity Blog",
 		url: "http://blog.udacity.com/feed"
@@ -37,13 +36,15 @@ function init() {
  * perform all of the DOM operations required to display
  * feed entries on the page. Feeds are referenced by their
  * index position within the allFeeds array.
- * This function all supports a callback as the second parameter
+ * This function also supports a callback as the second parameter
  * which will be called after everything has run successfully.
  */
 function loadFeed(id, cb) {
-	var feedUrl = allFeeds[id].url,
+	let feedUrl = allFeeds[id].url,
 		feedName = allFeeds[id].name;
 
+	// Converting this to fetch and/or axios would be fun
+	// I also need to spin up my own server to cut out Udacity
 	$.ajax({
 		type: "POST",
 		url: "https://rsstojson.udacity.com/parseFeed",
@@ -51,7 +52,7 @@ function loadFeed(id, cb) {
 		contentType:"application/json",
 		success: function (result, status){
 
-			var container = $(".feed"),
+			const container = $(".feed"),
 				title = $(".header-title"),
 				entries = result.feed.entries,
 				entryTemplate = Handlebars.compile($(".tpl-entry").html());
@@ -60,10 +61,10 @@ function loadFeed(id, cb) {
 			container.empty();      // Empty out all previous entries
 
 			/* Loop through the entries we just loaded via the Google
-                  * Feed Reader API. We'll then parse that entry against the
-                  * entryTemplate (created above using Handlebars) and append
-                  * the resulting HTML to the list of entries on the page.
-                  */
+            * Feed Reader API. We'll then parse that entry against the
+            * entryTemplate (created above using Handlebars) and append
+            * the resulting HTML to the list of entries on the page.
+            */
 			entries.forEach(function(entry) {
 				container.append(entryTemplate(entry));
 			});
@@ -80,7 +81,7 @@ function loadFeed(id, cb) {
 		},
 		dataType: "json"
 	});
-     
+
 }
 
 /* Google API: Loads the Feed Reader API and defines what function
@@ -93,12 +94,12 @@ google.setOnLoadCallback(init);
  * until the DOM is ready.
  */
 $(function() {
-	var container = $(".feed"),
+	const container = $(".feed"),
 		feedList = $(".feed-list"),
 		feedItemTemplate = Handlebars.compile($(".tpl-feed-list-item").html()),
-		feedId = 0,
 		menuIcon = $(".menu-icon-link");
-
+	let	feedId = 0;
+		
 	/* Loop through all of our feeds, assigning an id property to
      * each of the feeds based upon its index within the array.
      * Then parse that feed against the feedItemTemplate (created
@@ -117,7 +118,7 @@ $(function() {
      * (following the link) from occurring.
      */
 	feedList.on("click", "a", function() {
-		var item = $(this);
+		const item = $(this);
 
 		$("body").addClass("menu-hidden");
 		loadFeed(item.data("id"));

@@ -1,4 +1,4 @@
-var allFeeds = [
+const allFeeds = [
 	{
 		name: "Udacity Blog",
 		url: "http://blog.udacity.com/feed"
@@ -17,7 +17,7 @@ var allFeeds = [
 function init() {loadFeed(0);}
 
 function loadFeed(id, cb) {
-	var feedUrl = allFeeds[id].url,
+	const feedUrl = allFeeds[id].url,
 		feedName = allFeeds[id].name;
 
 	$.ajax({
@@ -27,7 +27,7 @@ function loadFeed(id, cb) {
 		contentType:"application/json",
 		success: function (result, status){
 
-			var container = $(".feed"),
+			const container = $(".feed"),
 				title = $(".header-title"),
 				entries = result.feed.entries,
 				entryTemplate = Handlebars.compile($(".tpl-entry").html());
@@ -45,24 +45,24 @@ function loadFeed(id, cb) {
 		},
 		dataType: "json"
 	});
-     
+
 }
 
 google.setOnLoadCallback(init);
 
 
 $(function() {
-	var feedList = $(".feed-list"),
+	const feedList = $(".feed-list"),
 		feedItemTemplate = Handlebars.compile($(".tpl-feed-list-item").html()),
-		feedId = 0,
 		menuIcon = $(".menu-icon-link");
+	let	feedId = 0
 	allFeeds.forEach(function(feed) {
 		feed.id = feedId;
 		feedList.append(feedItemTemplate(feed));
 		feedId++;
 	});
 	feedList.on("click", "a", function() {
-		var item = $(this);
+		const item = $(this);
 
 		$("body").addClass("menu-hidden");
 		loadFeed(item.data("id"));
