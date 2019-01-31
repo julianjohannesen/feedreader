@@ -38,19 +38,14 @@ $(function() {
 
 		/* Ensures the menu element is hidden by default. */
 		it("is hidden by default", function(){
-			// The menu is hidden when the men-hidden class appears on the body element
-			const hiderClass = document.body.classList.contains("menu-hidden");
-			expect(hiderClass).toBe(true);
-			// The menu is hidden by default by translating it 192 pixels to the left, off-screen
-			let howHidden = window.getComputedStyle(document.querySelector(".slide-menu")).transform;
-			expect(howHidden).toContain("matrix(1, 0, 0, 1, -192, 0)");
-
+			// The menu is hidden when the menu-hidden class appears on the body element
+			expect($("body").hasClass("menu-hidden")).toBe(true);
 		});
 
 		/* Ensure the menu changes visibility when the menu icon is clicked. 
-		 * This test has two expectations: does the menu display when clicked
-          *  and does it hide when clicked again.
-          */
+		*  This test has two expectations: does the menu display when clicked
+        *  and does it hide when clicked again.
+        */
 		it("shows when clicked and hides when clicked again", function(){            
 			// spy on the menu icon and click event
 			const spy = spyOnEvent(".header a i", "click");
@@ -62,13 +57,6 @@ $(function() {
 			expect(spy).toHaveBeenTriggered();
 			// Expect the body NOT to have the menu-hidden class
 			expect($("body")).not.toHaveClass("menu-hidden");
-			// Expect that value of howShowing to contain a matrix that positions the slide menu on the page
-			let howShowing;
-			// To prevent getting the computed style on load we can set a delay
-			setTimeout(function(){
-				howShowing = window.getComputedStyle(document.querySelector(".slide-menu")).transform;
-				expect(howShowing).toContain("matrix(1, 0, 0, 1, 0, 0)");
-			}, 2500) ;
 
 			// Reset the spy and now check that clicking a second time closes the menu
 			spy.reset();
@@ -81,13 +69,6 @@ $(function() {
 			expect(spy).toHaveBeenTriggered();
 			// Expect the body to have the menu-hidden class
 			expect($("body")).toHaveClass("menu-hidden");
-			// Expect that value of howHidden to contain a matrix that positions the slide menu off the page
-			// To prevent getting the computed style to soon we can add a delay
-			setTimeout(function(){
-				howHidden = window.getComputedStyle(document.querySelector(".slide-menu")).transform;
-				expect(howHidden).toContain("matrix(1, 0, 0, 1, -191.191, 0)");
-			}, 5000) ;
-
 		});
 
 	});
